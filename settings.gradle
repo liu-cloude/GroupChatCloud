@@ -1,0 +1,2 @@
+include ':app', ':groupchat'
+rootProject.name='GroupChatCloud'
