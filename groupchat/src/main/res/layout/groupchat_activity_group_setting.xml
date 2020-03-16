@@ -28,7 +28,7 @@
                 app:title_background_color="@color/groupchat_transparent"
                 app:title_text="群设置" />
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/tv_group_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="群名称"
                 android:textColor="@color/groupchat_white"
-                android:textSize="14sp" />
+                android:textSize="14sp" />-->
         </RelativeLayout>
     </FrameLayout>
 

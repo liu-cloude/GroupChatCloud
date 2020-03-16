@@ -75,6 +75,13 @@ public class EditGroupNameActivity extends BaseActivity {
             return;
         }
 
+        if (group.getLeader(this)){
+            title.setRightFristVisible(View.VISIBLE);
+        }else {
+            title.setRightFristVisible(View.GONE);
+        }
+        et_content.setFocusable(group.getLeader(this));
+
         et_content.setText(group.getTitle());
         oldName=group.getTitle();
     }

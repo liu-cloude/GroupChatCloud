@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:is_show_right_second = "false"
-        app:title_text="聊名称" />
+        app:title_text="群名称" />
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"

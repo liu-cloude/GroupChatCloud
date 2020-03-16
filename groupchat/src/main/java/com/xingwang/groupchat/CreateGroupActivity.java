@@ -37,7 +37,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CreateGroupActivity extends BaseActivity implements View.OnClickListener,EasyPermissions.PermissionCallbacks{
+public class CreateGroupActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private static final int CAMEAR = 100;//图片/视频权限
 
@@ -48,12 +48,12 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
 
     private String group_name;
     private String avatar;
-    private List<File> localFiles=new ArrayList<>();//本地文件
+    private List<File> localFiles = new ArrayList<>();//本地文件
     private BottomPopWindow popWindow;//底部弹窗
 
     private ImagePickerDefine pickerDefine;
 
-    private HashMap<String,String> params=new HashMap<>();
+    private HashMap<String, String> params = new HashMap<>();
 
     public static void getIntent(Context context) {
         Intent intent = new Intent(context, CreateGroupActivity.class);
@@ -84,8 +84,8 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initData() {
-        pickerDefine= BeautyDefine.getImagePickerDefine(this);
-        popWindow = new BottomPopWindow(this,true);
+        pickerDefine = BeautyDefine.getImagePickerDefine(this);
+        popWindow = new BottomPopWindow(this, true);
         popWindow.setOnMyPopClickEvent(new BottomPopWindow.OnBottomClickEvent() {
             @Override
             public void takePhoto() {
@@ -102,7 +102,7 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
 
             }
         });
-        GlideUtils.loadPic("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg", img_add_group_avatar,this);
+        // GlideUtils.loadPic("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg", img_add_group_avatar,this);
     }
 
     @Override
@@ -121,21 +121,21 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
                 return;
             }
 
-              /*  if (EmptyUtils.isEmpty(avatar)){
-                    ToastUtils.showShortSafe("请选择群头像！");
-                    return;
-                }*/
+            if (EmptyUtils.isEmpty(avatar)) {
+                ToastUtils.showShortSafe("请选择群头像！");
+                return;
+            }
             showLoadingDialog();
-            // uploadPic();
-            createGroup();
+            uploadPic();
+            //createGroup();
         } else if (id == R.id.img_add_group_avatar) {
             popWindow.show();
         }
     }
 
     @AfterPermissionGranted(CAMEAR)
-    private void requestCameraPermission(){
-        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO};
+    private void requestCameraPermission() {
+        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
         if (EasyPermissions.hasPermissions(this, perms)) {
             getPicResult();
         } else {
@@ -156,18 +156,18 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==CAMEAR){
+        if (requestCode == CAMEAR) {
             getPicResult();
         }
     }
 
     //获取图片/视频选择
-    private void getPicResult(){
+    private void getPicResult() {
         ToastUtils.showShortSafe("getPicResult()");
-        pickerDefine.showMultiplePicker(1,null, new ImagePickerCallBack() {
+        pickerDefine.showMultiplePicker(1, null, new ImagePickerCallBack() {
             @Override
             public void onResult(List<String> list) {
-                if (EmptyUtils.isNotEmpty(list)){
+                if (EmptyUtils.isNotEmpty(list)) {
                     localFiles.clear();
                     localFiles.add(FileUtils.getFileByPath(list.get(0)));
                 }
@@ -176,13 +176,13 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
     }
 
     //上传图片
-    private void uploadPic(){
-        File[] arrayFile=localFiles.toArray(new File[localFiles.size()]);
+    private void uploadPic() {
+        File[] arrayFile = localFiles.toArray(new File[localFiles.size()]);
 
         BeautyDefine.getUploadDefine().upload(arrayFile, new UploadResultCallBack() {
             @Override
             public void onSucceed(String[] strings) {
-                avatar=strings[0];
+                avatar = strings[0];
                 createGroup();
             }
 
@@ -195,10 +195,11 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
     }
 
     //创建群
-    private void createGroup(){
+    private void createGroup() {
         params.clear();
-        params.put("title",group_name);
-        params.put("avatar","https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
+        params.put("title", group_name);
+       // params.put("avatar", "https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
+        params.put("avatar",avatar);
 
         HttpUtil.post(Constants.GROUP_CREATE, params, new HttpUtil.HttpCallBack() {
             @Override
@@ -215,5 +216,5 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
             }
         });
     }
-    
+
 }

@@ -1,5 +1,8 @@
 package com.xingwang.groupchat.bean;
 
+import android.content.Context;
+
+import com.beautydefinelibrary.BeautyDefine;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.xingwang.groupchat.view.lookup.LookUpBean;
 
@@ -107,8 +110,8 @@ public class Group extends LookUpBean implements Serializable {
         return teamIdjson;
     }
 
-    public boolean getLeader() {
-        if (user_id==42)
+    public boolean getLeader(Context context) {
+        if (getStrUser_id().equals(BeautyDefine.getUserInfoDefine(context).getUserId()))
             return true;
         return false;
     }

@@ -76,14 +76,14 @@ public class GroupIntroActivity extends BaseActivity {
             return;
         }
 
-        if (group.getLeader()){
+        if (group.getLeader(this)){
             et_content.setHint("请填写简介");
             title.setRightFristVisible(View.VISIBLE);
         }else {
             et_content.setHint("本群暂无介绍");
             title.setRightFristVisible(View.GONE);
         }
-        et_content.setFocusable(group.getLeader());
+        et_content.setFocusable(group.getLeader(this));
 
         oldIntro=group.getIntroduction();
         et_content.setText(oldIntro);

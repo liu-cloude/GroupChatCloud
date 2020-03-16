@@ -270,11 +270,10 @@ public class HttpUtil {
         return request;
     }
 
-
     private static String paramsToString(String url, HashMap<String, String> params) {
         StringBuilder url_builder = new StringBuilder();
         url_builder.append(url);
-        //url_builder.append("?");
+
         if (params != null && params.size() > 0) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 try {

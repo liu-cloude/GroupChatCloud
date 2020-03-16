@@ -51,7 +51,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     protected GridView gv_group_member;
     protected TopTitleView title;
     protected TextView tv_group_name;
-    protected TextView tv_group_title;
+    //protected TextView tv_group_title;
     protected RelativeLayout re_change_groupname;
     protected TextView tv_group_member_num;
     protected RelativeLayout rl_group_member;
@@ -98,7 +98,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         title = findViewById(R.id.title);
         gv_group_member = findViewById(R.id.gv_group_member);
         tv_group_name = findViewById(R.id.tv_group_name);
-        tv_group_title = findViewById(R.id.tv_group_title);
+       // tv_group_title = findViewById(R.id.tv_group_title);
         re_change_groupname = findViewById(R.id.re_change_groupname);
         tv_group_member_num = findViewById(R.id.tv_group_member_num);
         rl_group_member = findViewById(R.id.rl_group_member);
@@ -159,7 +159,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                     ||i==userList.size()){//此时添加成员
                 SearchUserActivity.getIntent(GroupSettingActivity.this,groupId);
             }else  {//进入个人详情界面
-                ToastUtils.showShortSafe(userList.get(i).getNickname());
+                BeautyDefine.getOpenPageDefine(GroupSettingActivity.this).toPersonal(userList.get(i).getId());
+                //ToastUtils.showShortSafe(userList.get(i).getNickname());
             }
         });
     }
@@ -187,19 +188,17 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 tv_group_name.setText(group.getTitle());
-                tv_group_title.setText(group.getTitle());
+               // tv_group_title.setText(group.getTitle());
                 tv_group_intro.setText(group.getIntroduction());
                 GlideUtils.loadAvatar(group.getAvatar(),img_group_head,GroupSettingActivity.this);
 
-                if (group.getLeader()){
+                if (group.getLeader(GroupSettingActivity.this)){
                     re_transfer.setVisibility(View.VISIBLE);
                     bt_leave.setText("解散群聊");
-                    re_change_groupname.setVisibility(View.VISIBLE);
                     img_group_head.setClickable(true);
                 }else {
                     re_transfer.setVisibility(View.GONE);
                     bt_leave.setText("退出群聊");
-                    re_change_groupname.setVisibility(View.GONE);
                     img_group_head.setClickable(false);
                 }
 
@@ -235,7 +234,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             DialogUtils.obtainCommonDialog("您将失去和群友的联系，确定操作?", new DialogAlertCallback() {
                 @Override
                 public void sure() {
-                    if (group.getLeader()) {//解散群聊
+                    if (group.getLeader(GroupSettingActivity.this)) {//解散群聊
                         quiteGroup(Constants.GROUP_DISMISS);
                     } else {//退出群聊
                         quiteGroup(Constants.GROUP_LEAVE);
@@ -257,8 +256,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private void requestCameraPermission(){
         String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO};
         if (EasyPermissions.hasPermissions(this, perms)) {
-            //getPicResult();
-            editGroupAvatar("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
+            getPicResult();
+            //editGroupAvatar("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
         } else {
             EasyPermissions.requestPermissions(GroupSettingActivity.this, "需要以下权限:\n\n1.拍照\n\n2.存储读写权限", CAMEAR, perms);
         }
@@ -278,8 +277,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode==CAMEAR){
-            //getPicResult();
-            editGroupAvatar("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
+            getPicResult();
+            //editGroupAvatar("https://pic2.zhimg.com/v2-a22e84085461ca29efd5fdc3c71bc13f_r.jpg");
         }
     }
 

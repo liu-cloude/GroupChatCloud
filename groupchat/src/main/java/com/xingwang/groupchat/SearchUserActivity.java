@@ -199,15 +199,14 @@ public class SearchUserActivity extends BaseActivity implements View.OnClickList
 
     //搜索用户
     private void searchUser(){
-        params.clear();
-        params.put("q",searchContent);
-
         showLoadingDialog();
-        HttpUtil.get(Constants.SEARCH_USER,params,new HttpUtil.HttpCallBack() {
+        HttpUtil.get(Constants.SEARCH_USER+"?q="+searchContent,new HttpUtil.HttpCallBack() {
             @Override
             public void onFailure(String message) {
                 hideLoadingDialog();
-                ToastUtils.showShortSafe(message);
+                tv_empty.setVisibility(View.VISIBLE);
+                lv_list.setVisibility(View.GONE);
+                tv_empty.setText(message);
             }
 
             @Override
@@ -219,7 +218,8 @@ public class SearchUserActivity extends BaseActivity implements View.OnClickList
                     lv_list.setVisibility(View.GONE);
                     return;
                 }
-
+                tv_empty.setVisibility(View.GONE);
+                lv_list.setVisibility(View.VISIBLE);
                 matchGroupMember();
             }
         });
@@ -287,7 +287,7 @@ public class SearchUserActivity extends BaseActivity implements View.OnClickList
             et_search.setText("");
         } else if (id == R.id.bt_add) {
             if (EmptyUtils.isEmpty(addUserList)) {
-                ToastUtils.showShortSafe("请选择要添加的用户!");
+                ToastUtils.showShortSafe("请选择新用户!");
             } else {
                 for (String userId : addUserList) {
                     addGroupMember(userId);

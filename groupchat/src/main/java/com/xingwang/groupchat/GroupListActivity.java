@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.beautydefinelibrary.BeautyDefine;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.EmptyUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -73,7 +74,8 @@ public class GroupListActivity extends BaseActivity {
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                GroupSettingActivity.getIntent(GroupListActivity.this,String.valueOf(groupList.get(i).getId()));
+                BeautyDefine.getOpenPageDefine(GroupListActivity.this).toGroupChat(groupList.get(i).getId());
+                //GroupSettingActivity.getIntent(GroupListActivity.this,String.valueOf(groupList.get(i).getId()));
             }
         });
         showLoadingDialog();
@@ -89,8 +91,10 @@ public class GroupListActivity extends BaseActivity {
         HttpUtil.get(Constants.GROUP_MY, new HttpUtil.HttpCallBack() {
             @Override
             public void onFailure(String message) {
+                tv_empty.setVisibility(View.VISIBLE);
+                list_group.setVisibility(View.GONE);
                 hideLoadingDialog();
-                ToastUtils.showShortSafe(message);
+                tv_empty.setText(message);
             }
 
             @Override

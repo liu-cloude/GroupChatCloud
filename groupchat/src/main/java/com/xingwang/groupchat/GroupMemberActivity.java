@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.beautydefinelibrary.BeautyDefine;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.xingwang.groupchat.adapter.GroupMemberListAdapter;
@@ -115,7 +116,8 @@ public class GroupMemberActivity extends BaseActivity implements View.OnClickLis
         memberListAdapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(int position) {
-                ToastUtils.showShortSafe("click"+position);
+                BeautyDefine.getOpenPageDefine(GroupMemberActivity.this).toPersonal(memberList.get(position).getId());
+                //ToastUtils.showShortSafe("click"+position);
             }
         });
 
@@ -158,7 +160,7 @@ public class GroupMemberActivity extends BaseActivity implements View.OnClickLis
                     }
                 }
 
-                memberListAdapter.setLeader(group.getLeader());
+                memberListAdapter.setLeader(group.getLeader(GroupMemberActivity.this));
                 memberListAdapter.notifyDataSetChanged();
             }
         });
@@ -191,6 +193,7 @@ public class GroupMemberActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.line_group_owner) {
+            BeautyDefine.getOpenPageDefine(GroupMemberActivity.this).toPersonal(group.getUser_id());
         }
     }
 }
